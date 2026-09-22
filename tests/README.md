@@ -71,3 +71,31 @@ Give a second fresh agent this request:
 Run `python -B tests/generation_rehearsal.py check <run> restore`. This checks the
 application, preferences, overlay isolation, preservation of unrelated settings,
 and unchanged source and recipe files. Review the agent's report as well.
+
+## Change capture and restore
+
+After a successful Ryōribon rehearsal, run
+`python -B tests/change_capture_rehearsal.py create <generation-run>`.
+It creates a separate run using the generated recipe, with a changed source
+preference, an unrelated repository edit, and temporary app state.
+Keep the helper and evaluator snapshots out of agent context.
+
+Give a fresh agent this request, substituting the new run path:
+
+> Use `<run>/plugin/skills/change-capture/SKILL.md` to capture my Palette font-size
+> change from 14 to 16 in `<run>/source-home/.config/palette/settings.json` into
+> `<run>/oma`. Target: Omarchy/Linux, profile `travel`. Preserve existing repository
+> edits. Read only the plugin, repository, source home, and runtime tooling; write
+> only the recipe and temporary reports under `<run>`. Do not deploy, change the
+> source, stage, or commit. Use `PYTHONDONTWRITEBYTECODE=1`.
+
+Run `python -B tests/change_capture_rehearsal.py check <run> capture`.
+Review the documentation diff too: readiness checks must reflect the resulting
+recipe without adding capture history or duplicating shared instructions.
+
+Give a second fresh agent the Shokunin restore request above, using `<run>/oma`
+as the repository and this run's two target homes. Keep the source home and
+evaluator snapshots out of its context. Then run
+`python -B tests/change_capture_rehearsal.py check <run> restore`.
+The updated preference must survive restoration to both profiles while the
+machine overlay, unrelated settings, and prior repository edit are preserved.

@@ -17,10 +17,10 @@ and affected ippin instructions.
 ## After a known edit
 
 1. Use the file and diff already available from the task. Find its repository counterpart by the path beneath `home/`; include hidden files in searches. For example, `~/.config/hypr/apps/chrome.lua` maps to `ippin/chrome/omarchy/home/.config/hypr/apps/chrome.lua`.
-2. Apply only the intentional change to that counterpart, preserving existing repository edits. Copy the whole file only when the remaining contents match. If a machine overlay replaces a shared file at the same destination, update the selected overlay; do not copy its hardware values into the shared baseline. Consult the manifest when route or overlay ownership is unclear.
-3. Reuse checks already performed for the live edit. Check the repository diff and run only additional validation needed by the captured change; a routine edit needs no broad inventory or restore rehearsal. Update setup instructions only if the change alters restoration requirements.
+2. Apply only the intentional change to that counterpart, preserving existing repository edits. Copy the whole file only when the remaining contents match. Follow the recipe’s merge or replacement rules: for partial overlays, update the layer that owns the changed key; for whole-file replacements, update the selected replacement. Keep hardware values out of the shared baseline. Consult the manifest and instructions when ownership is unclear.
+3. Reuse checks already performed for the live edit. Check the repository diff and run only additional validation needed by the captured change; a routine edit needs no broad inventory or restore rehearsal. Search the repository for existing checks and descriptions of the changed preference and keep them consistent. Add setup instructions only if restoration requirements change.
 
-If ownership is unclear or a new ippin is needed, finish the requested live change and report the uncaptured item for follow-up. Do not turn it into a repository redesign.
+For a component without an ippin, use [Ryōribon](../ryoribon/SKILL.md) within the authorized capture scope. If ownership remains unclear, report the uncaptured item for follow-up.
 
 ## Catch up when requested
 
