@@ -42,7 +42,7 @@ No matching route means unsupported; unavailable prerequisites mean blocked.
 
 ## Validation
 
-From the Wakiita repository root, with `uv` available:
+From the Wakiita plugin directory (`plugins/wakiita` in this repository), with `uv` available:
 
 ```bash
 uv run scripts/validate-manifests.py /path/to/oma-repository

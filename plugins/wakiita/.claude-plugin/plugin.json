@@ -1,0 +1,8 @@
+{
+  "name": "wakiita",
+  "version": "0.1.0",
+  "description": "Capture configuration changes in an Oma-repository and validate ippin manifests.",
+  "author": {
+    "name": "Koral"
+  }
+}
