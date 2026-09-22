@@ -1,0 +1,12 @@
+{
+  "name": "wakiita",
+  "owner": {
+    "name": "Koral"
+  },
+  "plugins": [
+    {
+      "name": "wakiita",
+      "source": "./plugins/wakiita"
+    }
+  ]
+}
