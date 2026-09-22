@@ -29,7 +29,11 @@ Distinguish intended preferences from defaults, generated state, credentials, an
 settings already managed by account sync. Keep credentials and session data out
 of captured files and reports. Resolve uncertainty about personal preferences
 with the user; investigate technical facts yourself. Do not treat everything
-present on the source machine as something to reproduce.
+present on the source machine as something to reproduce. Compare with installed
+defaults where available, and capture intended preferences and required
+integration. If a complete configuration is needed for a fresh installation,
+distinguish that baseline from the specific settings to merge into an existing
+target.
 
 Create `ippin/<id>/ippin.json`, a concise human README, and component-specific
 `AGENTS.md`. Describe only the current component setup and checks. Put investigation
