@@ -1,6 +1,6 @@
 ---
 name: shokunin
-description: Plan a setup from an Oma-repository and, when requested, execute and verify one ippin whose prerequisites are ready. Use when asked to serve a meal, restore a component, or work out installation prerequisites.
+description: Plan a setup from an Oma-repository and, when requested, execute and verify its ippin in dependency order. Use when asked to serve a meal, restore a component, or work out installation prerequisites.
 ---
 
 # Shokunin
@@ -36,15 +36,18 @@ installation order, and steps needing user involvement in plain language. Distin
 planned work from verified existing readiness and identify unresolved issues.
 For planning-only requests, finish here.
 
-## Execute one ippin
+## Execute the plan
 
-Execution currently covers one requested ippin at a time, including its matching
-overlays. If several were requested, present the plan and agree on one to execute.
-Verify all of its effective prerequisites on the actual target, following component
-instructions. If any remain unready, report what must be set up first; do not expand
-into installing the dependency graph. Record verified prerequisites in the request
-and rerun the planner before making changes. Continue only with a complete plan
-and confirmed target; reread and replan if recipes or target facts have changed.
+Start only with a complete plan and confirmed target. Execute sequentially in the
+returned order, including prerequisite ippin within the authorized setup scope.
+Keep a brief progress record outside the Oma-repository with each ippin's status,
+verification evidence, and partial changes. A shared prerequisite runs once.
+
+Before each ippin, check that all effective requirements are satisfied: planned
+providers must have completed verification, and external evidence must still hold
+on this target. If a prerequisite failed, is waiting for the user, or is itself
+blocked, mark this ippin blocked and continue independent work. Never treat a
+structurally complete plan as evidence of readiness.
 
 Follow the repository, component, selected route, and overlay instructions, using
 [manifest semantics](../../docs/ippin-spec.md) for commands and ordering. Check the
@@ -53,10 +56,15 @@ needed, execute its argument array directly with the ippin directory as its work
 directory; do not join it into a shell command. Apply matching overlays in order.
 
 Verify every provided outcome against the final setup, including overlays. A zero
-exit code is not proof of readiness. Stop on failure or pending human verification,
-report the evidence and any partial changes, and leave the ippin incomplete. Do not
-switch routes, rewrite recipes, or retry unchanged steps to force success.
+exit code is not proof of readiness. On failure or pending human verification,
+stop that ippin, record the evidence and partial changes, and leave its outcomes
+unavailable to dependants. Continue independent work where safe; if the failure
+may affect shared state, recheck that state first. Do not switch routes, rewrite
+recipes, or retry unchanged steps to force success.
 
-Report whether the ippin completed, was already ready, failed verification or setup,
-or is waiting for the user, with the checks supporting that result. Keep credentials
-out of reports and leave the Oma-repository unchanged.
+If recipes or target facts change, replan before continuing. After interruption or
+reboot, recheck relevant readiness rather than trusting the progress record alone.
+
+Report completed and already-ready ippin, failures, steps waiting for the user,
+and blocked dependants with their causes. An incomplete plan execution is not an
+overall success. Keep credentials out of reports and leave the Oma-repository unchanged.
