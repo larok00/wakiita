@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "wakiita",
   "version": "0.1.0",
-  "description": "Capture configuration changes in an Oma-repository and validate ippin manifests.",
+  "description": "Create reproducible setup recipes from Omarchy, keep them up to date, and plan and execute setup from an Oma-repository.",
   "author": {
     "name": "Koral"
   }

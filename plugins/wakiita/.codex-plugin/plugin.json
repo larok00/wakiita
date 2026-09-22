@@ -1,18 +1,18 @@
 {
   "name": "wakiita",
   "version": "0.1.0",
-  "description": "Capture configuration changes in an Oma-repository and validate ippin manifests.",
+  "description": "Create reproducible setup recipes from Omarchy, keep them up to date, and plan and execute setup from an Oma-repository.",
   "author": {
     "name": "Koral"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Wakiita",
-    "shortDescription": "Capture and validate your Oma-repository.",
-    "longDescription": "Capture configuration changes in an Oma-repository and validate ippin manifests.",
+    "shortDescription": "Capture, maintain, and restore your setup.",
+    "longDescription": "Create reproducible setup recipes from Omarchy, keep them up to date, and plan and execute setup from an Oma-repository.",
     "developerName": "Koral",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "Review configuration changes for my Oma-repository."
+    "defaultPrompt": "Help me get started with Wakiita for my setup."
   }
 }
