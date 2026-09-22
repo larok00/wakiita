@@ -113,6 +113,39 @@ class PlanCommandTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(result['bindings']['base.ready']['external'], 'Verified on this target')
 
+    def add_overlay(self):
+        overlay = {'id': 'desktop', 'when': {'machine': 'desktop'},
+                   'instructions': 'AGENTS.md'}
+        self.manifest['routes'][0]['overlays'] = [overlay]
+        self.request['target']['machine'] = 'desktop'
+        return overlay
+
+    def test_overlay_without_requirements(self):
+        self.add_overlay()
+        self.save_manifest()
+        self.assertEqual(self.run_command()[0], 0)
+
+    def test_validator_reports_overlay_prerequisite_context(self):
+        self.add_overlay()['requires'] = ['tailscale.connected']
+        self.save_manifest()
+        result = subprocess.run(
+            [sys.executable, '-B', str(PLUGIN / 'scripts/validate-manifests.py'), str(self.repo)],
+            cwd=self.root, capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertIn('overlay desktop', result.stdout)
+        self.assertIn('tailscale.connected', result.stdout)
+        self.assertEqual(self.run_command()[0], 2)
+
+    def test_invalid_overlay_requirements(self):
+        overlay = self.add_overlay()
+        for requirements in ['tailscale.connected', ['invalid'],
+                             ['tailscale.connected', 'tailscale.connected']]:
+            with self.subTest(requirements=requirements):
+                overlay['requires'] = requirements
+                self.save_manifest()
+                self.assertEqual(self.run_command()[0], 1)
+
     def test_packaged_command_works_outside_checkout(self):
         copied = self.root / 'plugin'
         shutil.copytree(PLUGIN, copied)
