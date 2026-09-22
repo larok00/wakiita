@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ippin manifest \u2014 version 1",
+  "description": "Structure of an ippin manifest. See ippin-spec.md for planning and readiness semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "provides",
+    "routes"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../../docs/ippin.schema.json",
+      "description": "Optional editor association for ippin/<id>/ippin.json."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "provides": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/outcome"
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/route"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*(?:\\.[a-z0-9]+(?:-[a-z0-9]+)*)+$",
+      "not": {
+        "pattern": "\\s"
+      },
+      "description": "Two or more dot-separated lowercase kebab-case segments, each allowing a leading digit, e.g. 1password.ready."
+    },
+    "when": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os": {
+          "type": "string",
+          "enum": [
+            "linux",
+            "macos",
+            "windows"
+          ]
+        },
+        "environment": {
+          "$ref": "#/$defs/id",
+          "description": "Extensible target environment name; not an assertion of support."
+        },
+        "browser": {
+          "$ref": "#/$defs/id",
+          "description": "Extensible target browser name; not an assertion of support."
+        },
+        "machine": {
+          "$ref": "#/$defs/id",
+          "description": "Named target configuration profile, e.g. xps; not a hostname or automatic hardware match."
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "when",
+        "requires",
+        "interactive",
+        "instructions"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "when": {
+          "$ref": "#/$defs/when"
+        },
+        "requires": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/outcome"
+          }
+        },
+        "command": {
+          "type": "array",
+          "minItems": 1,
+          "prefixItems": [
+            {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "\\u0000"
+              }
+            }
+          ],
+          "items": {
+            "type": "string",
+            "not": {
+              "pattern": "\\u0000"
+            }
+          },
+          "description": "Executable and arguments, without implicit shell expansion. Subsequent arguments may be empty."
+        },
+        "interactive": {
+          "type": "boolean"
+        },
+        "instructions": {
+          "$ref": "#/$defs/instructions"
+        },
+        "overlays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/overlay"
+          },
+          "description": "Apply every matching overlay after this route, in declared order."
+        }
+      }
+    },
+    "instructions": {
+      "type": "string",
+      "pattern": "^(?:[A-Za-z0-9_-][A-Za-z0-9._-]*/)*[A-Za-z0-9_-][A-Za-z0-9._-]*\\.md$",
+      "not": {
+        "pattern": "\\s"
+      },
+      "description": "Portable relative Markdown path within the ippin. No absolute paths or dot/dot-dot segments. Existence and symlink containment need filesystem checks."
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "when",
+        "instructions"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "when": {
+          "$ref": "#/$defs/when"
+        },
+        "instructions": {
+          "$ref": "#/$defs/instructions"
+        },
+        "requires": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/outcome"
+          }
+        }
+      }
+    }
+  }
+}
