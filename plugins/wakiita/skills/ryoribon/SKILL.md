@@ -32,7 +32,8 @@ with the user; investigate technical facts yourself. Do not treat everything
 present on the source machine as something to reproduce.
 
 Create `ippin/<id>/ippin.json`, a concise human README, and component-specific
-`AGENTS.md`. Describe the current component setup, not capture history. Keep shared
+`AGENTS.md`. Describe only the current component setup and checks. Put investigation
+findings and test limitations in the capture report, not the recipe. Keep shared
 routing and readiness rules in the specification rather than repeating them in
 each component. Include the config and supporting files needed for restoration. Put
 shared preferences in the route's baseline and machine-specific values in a
