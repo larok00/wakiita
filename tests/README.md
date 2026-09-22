@@ -99,3 +99,16 @@ evaluator snapshots out of its context. Then run
 `python -B tests/change_capture_rehearsal.py check <run> restore`.
 The updated preference must survive restoration to both profiles while the
 machine overlay, unrelated settings, and prior repository edit are preserved.
+
+For a catch-up variant, create another run and replace the capture request with:
+
+> I've changed a few things since my last capture. Catch up Palette in `<run>/oma`
+> with `<run>/source-home`. Target: Omarchy/Linux, profile `travel`. Preserve my
+> existing repository edits.
+
+Use the same isolation limits. Have the evaluator answer any intent questions;
+keep these answers out of the initial agent context: font size 16 is intentional
+and shared, while the repository's light theme is a separate edit to preserve.
+Check that the agent resolves those differences before changing uncertain values,
+excludes temporary state, and keeps the travel display setting. Then run the same
+capture check and independent restore phase.
