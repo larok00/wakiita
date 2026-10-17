@@ -1,7 +1,9 @@
 # Wakiita
 
-Helps you create your own beautiful, fun & agentic
-[Omarchy](https://github.com/omacom/omarchy) flavor.
+Wakiita helps an agent capture your
+[Omarchy](https://github.com/omacom/omarchy)
+customisations as reusable setup recipes,
+keep them updated, and restore them on another machine.
 
 ## Manual
 
